@@ -1,0 +1,7 @@
+table#bht tr.true {
+    background: rgb(40, 215, 100);
+}
+
+table#bht tr.false {
+    background: rgb(215, 40, 40);
+}
