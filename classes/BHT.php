@@ -41,6 +41,8 @@ class BHT {
 
             $line = &$this->bht[$decimalIndex];
 
+            $historic = [$line];
+
             $correct = true;
 
             if ($line["prediction"] == $branch) {
@@ -68,7 +70,9 @@ class BHT {
             
             
             $line["precision"] =  $line["correct"]/($line["correct"] + $line["incorrect"]);
-            array_push($this->iter, [$correct, $decimalIndex, $line]);
+
+            array_push($historic, $line);
+            array_push($this->iter, [$correct, $decimalIndex, $historic, $address]);
 
             
 
