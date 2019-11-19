@@ -57,8 +57,8 @@ class BHT {
 
         for (var i = 0; i < this.m; i++) {
 
-            table += "<tr id=\""+(i+1)+"\">";
-            table += this.formatLine("", (i+1), history.join(", "), this.initialValue, 0, 0, 0);
+            table += "<tr id=\""+i+"\">";
+            table += this.formatLine("", i, history.join(", "), this.initialValue, 0, 0, 0);
             table += "</tr>"
         }
 
@@ -109,7 +109,7 @@ class BHT {
             let line = this.getLine();
 
             let result = line[0];
-            let index = parseInt(line[1]) + 1;
+            let index = parseInt(line[1]);
             let history = line[2][1]["history"].join(", ");
             let prediction = line[2][1]["prediction"];
             let correct = line[2][1]["correct"];
@@ -138,7 +138,7 @@ class BHT {
             let line = this.getLine();
 
             let result = "";
-            let index = parseInt(line[1]) + 1;
+            let index = parseInt(line[1]);
             let history = line[2][0]["history"].join(", ");
             let prediction = line[2][0]["prediction"];
             let correct = line[2][0]["correct"];
@@ -153,7 +153,7 @@ class BHT {
             if (!this.init) {
                 line = this.getLine(this.iter-1);
                 result = line[0];
-                index = parseInt(line[1]) + 1;
+                index = parseInt(line[1]);
                 history = line[2][1]["history"].join(", ");
                 prediction = line[2][1]["prediction"];
                 correct = line[2][1]["correct"];

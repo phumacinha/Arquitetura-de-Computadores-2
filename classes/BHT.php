@@ -1,7 +1,7 @@
 <?php
 class BHT {
-    const T = "T";
-    const N = "N";
+    const TAKE = "T";
+    const NOT_TAKE = "N";
 
     private $n;
     private $m;
@@ -26,17 +26,18 @@ class BHT {
 
     public function simulator () {
         flush();
-        $trace = fopen($this->file, "r");
+        $data = fopen($this->file, "r");
         
-        while(!feof($trace))
+        while(!feof($data))
         {
-            $data = fgets($trace);
-            $data = explode(" ", $data);
+            $trace = fgets($data);
+            $trace = explode(" ", $trace);
 
-            $address = trim($data[0]);
-            $branch = trim($data[1]);
+            $address = trim($trace[0]);
+            $branch = trim($trace[1]);
 
-            $index = substr(base_convert($address, 16, 2), -log($this->m, 2));
+            $shift = substr(base_convert($address, 16, 2), 0, -2);
+            $index = substr($shift, -log($this->m, 2));
             $decimalIndex = base_convert($index, 2, 10);
 
             $line = &$this->bht[$decimalIndex];
@@ -52,6 +53,7 @@ class BHT {
                 $correct = false;
                 $line["incorrect"]++;
             }
+
 
             switch ($this->n) {
                 case 1:
@@ -78,7 +80,7 @@ class BHT {
 
             flush();
         }
-        fclose($trace);
+        fclose($data);
 
         return json_encode($this->iter);
     }
