@@ -39,7 +39,7 @@ A abordagem desse projeto são preditores de 1 e 2 bits, ou seja, a predição a
 ## Parâmetros de funcionamento
 - m: número de bits do endereço usados para indexação da predição log2 <# of indexes> = m;
 - n: número de bits que guardam o comportamento da predição global;
-- History size: número de bits que guardam o comportamento da predição no índice;
+- history_size: número de bits que guardam o comportamento da predição no índice (define a márquina de estados);
 - Counter: contadores individuais para cada índice com <History size> bits, e seu valor determina a predição:
   - 1 bit
     - 0 = N (não tomado)
@@ -68,7 +68,7 @@ O GHT (Global History Table) concatena n e m para criar n + m índices na tabela
 
 Para indexação da predição, as operações de remoção dos bits de verificação e cálculo de m são feitos como no BHT. Depois os n bits de comportamento do GHT são concatenados, de forma que os n bits são usados como MSB e os m bits como LSB. O resultado da concatenação é o índice da tabela onde será feita a predição.
 
-Depois de calculado o índice, (continuação somente após implementação dar certo...)
+Depois de calculado o índice, além das operações também feitas no BHT, o GHT deve atualizar o histórico global. Isso é feito "empurrando" o bit menos significativo para a esquerda, sendo adicionado 1 caso o desvio tenha sido tomado e 0 caso contrário. A string onde o histórico é guardado tem tamanho n e toda vez que ela é atualizada o antigo MSB é descartado.
 
 ## Preditor Híbrido
 
