@@ -1,5 +1,6 @@
 # BRANCH PREDICTOR SIMULATOR
 O Branch Predictor Simulator é uma ferramenta web para simulação dos preditores local (BHT), global (GHT) e híbrido. O intuito da página é auxiliar no aprendizado acadêmico, para que estudantes possam executar e entender o funcionamento de tais tecnologias.
+
 Este projeto é resultado do trabalho final da disciplina Arquitetura de Computadores II do curso de Ciência da Computação, ministrada pelo Professor Doutor Luiz Henrique Andrade Correia, do Departamento de Ciência da Computação, UFLA.
 # TECNOLOGIAS UTILIZADAS
 As linguagens utilizadas foram PHP7.3.6, Javascript na biblioteca JQuery 3.4.1.
