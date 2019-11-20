@@ -39,8 +39,8 @@ A abordagem desse projeto são preditores de 1 e 2 bits, ou seja, a predição a
 ## Parâmetros de funcionamento
 - m: número de bits do endereço usados para indexação da predição log2 <# of indexes> = m;
 - n: número de bits que guardam o comportamento da predição global;
-- history_size: número de bits que guardam o comportamento da predição no índice (define a márquina de estados);
-- Counter: contadores individuais para cada índice com <History size> bits, e seu valor determina a predição:
+- history_size: número de bits que guardam o comportamento da predição no índice (define a márquina de estados - contadores);
+- counter: contadores individuais para cada índice com history_size bits, e seu valor determina a predição:
   - 1 bit
     - 0 = N (não tomado)
     - 1 = T (tomado)
