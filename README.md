@@ -24,7 +24,7 @@ O projeto está hospedado e pode ser consultado neste [link](http://branchpredic
 
 # MANUAL DO USUÁRIO
 
-A descrição de uso pode ser encontrada no site na sessão “Help”.
+A descrição de uso pode ser encontrada no [site](http://branchprediction.epizy.com/) na sessão “Help”.
 
 # DESCRIÇÃO E FUNCIONAMENTO
 
@@ -32,8 +32,10 @@ Os preditores (m, n) são tecnologias desenvolvidas para auxiliar o hardware em 
 
 A abordagem desse projeto são preditores de 1 e 2 bits, ou seja, a predição atual depende, respectivamente, dos 1 ou 2 últimos acontecimentos, como mostrado nas figuras a seguir.
 
-!!imagens aqui!! 
+![](./readme images/state machine 1-bit.png)
 
+
+![](./readme images/state machine 2-bit.png)
 
 ## Parâmetros de funcionamento
 - m: número de bits do endereço usados para indexação da predição log2 <# of indexes> = m;
@@ -50,6 +52,8 @@ A abordagem desse projeto são preditores de 1 e 2 bits, ou seja, a predição a
     - 11 = T (forte)
 
 O contador do índice da predição é incrementado caso o resultado real do desvio seja T e decrementado caso seja N. Eles, ainda, saturam nos extremos, e caso ocorra uma operação de underflow ou overflow o valor é mantido.
+
+- k: (etapa 3)
 
 ## BHT - Preditor Local de Desvios
 
