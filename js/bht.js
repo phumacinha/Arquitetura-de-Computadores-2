@@ -1,7 +1,7 @@
 class BHT {
-    constructor (_m, _n, _initialValue, _steps, _selector) {
+    constructor (_m, _historySize, _initialValue, _steps, _selector) {
         this.m = _m;
-        this.n = _n;
+        this.historySize = _historySize;
         this.initialValue = _initialValue;
         this.steps = _steps;
         this.selector = _selector;
@@ -53,7 +53,7 @@ class BHT {
         var table = '<table id="bht">';
         table += "<tr><th>Index</th><th>History</th><th>Prediction</th><th>Correct</th><th>Incorrect</th><th>Precision</th></tr>"; //header
 
-        var history = this.n == 2 ? [this.initialValue, this.initialValue] : [this.initialValue];
+        var history = this.historySize == 2 ? [this.initialValue, this.initialValue] : [this.initialValue];
 
         for (var i = 0; i < this.m; i++) {
 

@@ -27,7 +27,7 @@
                     </select>
                 </div>
                 <div>History size:
-                    <select name="n" id="n">
+                    <select name="historySize" id="historySize">
                         <option value="1">1</option>
                         <option value="2">2</option>
                     </select>
