@@ -32,6 +32,14 @@ Os preditores (m, n) são tecnologias desenvolvidas para auxiliar o hardware em 
 
 A abordagem desse projeto são preditores de 1 e 2 bits, ou seja, a predição atual depende, respectivamente, dos 1 ou 2 últimos acontecimentos, como mostrado nas figuras a seguir.
 
+<p align="center">
+  <img src="/readme-images/state-machine-1-bit.png">
+</p>
+
+<p align="center">
+  <img src="/readme-images/state-machine-2-bit.png">
+</p>
+
 ![](/readme-images/state-machine-1-bit.png)
 
 ![](/readme-images/state-machine-2-bit.png)
