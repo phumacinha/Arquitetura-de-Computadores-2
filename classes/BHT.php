@@ -1,11 +1,10 @@
 <?php
-class BHT {
-    private const TAKE = "T";
-    private const NOT_TAKE = "N";
+require_once('Predictor.php');
 
+class BHT extends Predictor {
     private $historySize;
     private $m;
-    private $bht;
+    private $table;
     private $iter;
     private $counter;
     private $file;
@@ -14,7 +13,7 @@ class BHT {
     public function __construct ($m, $historySize, $initialValue, $file) {
         $this->historySize = $historySize;
         $this->m = log($m, 2);
-        $this->bht = [];
+        $this->table = [];
         $this->iter = [];
         $this->counter = [];
         $this->file = $file;
@@ -22,14 +21,16 @@ class BHT {
         $history = $historySize == 2 ? [$initialValue, $initialValue] : [$initialValue];
 
         for ($i = 0; $i < $m; $i++) {
-            array_push($this->bht, ["history"=>$history, "prediction"=>$initialValue, "correct"=>0, "incorrect"=>0, "precision"=>0]);
+            //initialize bht table
+            array_push($this->table, ["history"=>$history, "prediction"=>$initialValue, "correct"=>0, "incorrect"=>0, "precision"=>0]);
             
+            //initialize counters
             array_push($this->counter, $this->initialCounter($initialValue));
         }
     }
 
-    private function initialCounter ($branch, $strong=true) {
-        switch ($branch) {
+    private function initialCounter ($initialValue, $strong=true) {
+        switch ($initialValue) {
             case self::TAKE:
                 switch ($this->historySize) {
                     case 1:
@@ -89,7 +90,7 @@ class BHT {
     }
 
     private function updatePrediction ($index) {
-        $line = &$this->bht[$index];
+        $line = &$this->table[$index];
         $counter = $this->counter[$index];
 
         switch ($this->historySize) {
@@ -115,7 +116,7 @@ class BHT {
     }
 
     private function updateCorrect ($index, $branch) {
-        $line = &$this->bht[$index];
+        $line = &$this->table[$index];
 
         $correct = true;
 
@@ -131,7 +132,7 @@ class BHT {
     }
 
     private function updateHistory ($index, $branch) {
-        $line = &$this->bht[$index];
+        $line = &$this->table[$index];
 
         switch ($this->historySize) {
             case 1:
@@ -145,8 +146,14 @@ class BHT {
     }
 
     private function updatePrecision ($index) {
-        $line = &$this->bht[$index];
+        $line = &$this->table[$index];
         $line["precision"] =  $line["correct"]/($line["correct"] + $line["incorrect"]);
+    }
+
+    private function indexCalculator ($address) {
+        $shift = substr(base_convert($address, 16, 2), 0, -2);
+        $index = substr($shift, -$this->m);
+        return base_convert($index, 2, 10);
     }
 
     public function simulator () {
@@ -160,11 +167,9 @@ class BHT {
             $address = trim($trace[0]);
             $branch = trim($trace[1]);
 
-            $shift = substr(base_convert($address, 16, 2), 0, -2);
-            $index = substr($shift, -$this->m);
-            $decimalIndex = base_convert($index, 2, 10);
+            $decimalIndex = $this->indexCalculator($address);
 
-            $line = &$this->bht[$decimalIndex];
+            $line = &$this->table[$decimalIndex];
 
             $historic = [$line];
 
