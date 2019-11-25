@@ -40,27 +40,21 @@ A abordagem desse projeto são preditores de 1 e 2 bits, ou seja, a predição a
   <img src="/readme-images/state-machine-2-bit.png">
 </p>
 
-![](/readme-images/state-machine-1-bit.png)
-
-![](/readme-images/state-machine-2-bit.png)
-
 ## Parâmetros de funcionamento
 - m: número de bits do endereço usados para indexação da predição log<sub>2</sub><# of indexes> = m;
 - n: número de bits que guardam o comportamento da predição global;
 - history_size: número de bits que guardam o comportamento da predição no índice (define a márquina de estados - contadores);
-- counter: contadores individuais para cada índice com history_size bits, e seu valor determina a predição:
+- counter: contadores individuais para cada índice com history_size bits (se history_size==1, então max(counter)==1; se history_size==2, então max(counter)==3), e seu valor determina a predição:
   - 1 bit
     - 0 = N (não tomado)
     - 1 = T (tomado)
   - 2 bits
-    - 00 = N (forte)
-    - 01 = N (fraco)
-    - 10 = T (fraco)
-    - 11 = T (forte)
+    - 0 = N
+    - 1 = N
+    - 2 = T
+    - 3 = T
 
-O contador do índice da predição é incrementado caso o resultado real do desvio seja T e decrementado caso seja N. Eles, ainda, saturam nos extremos, e caso ocorra uma operação de underflow ou overflow o valor é mantido.
-
-- k: (etapa 3)
+O contador do índice da predição é incrementado caso o resultado real do desvio seja T e decrementado caso seja N. Eles, ainda, saturam nos extremos e, caso ocorra uma tentiva de extrapolação, o valor é mantido.
 
 ## BHT - Preditor Local de Desvios
 
@@ -78,10 +72,5 @@ Para indexação da predição, as operações de remoção dos bits de verifica
 
 Depois de calculado o índice, além das operações também feitas no BHT, o GHT deve atualizar o histórico global. Isso é feito "empurrando" o bit menos significativo para a esquerda, sendo adicionado 1 caso o desvio tenha sido tomado e 0 caso contrário. A string onde o histórico é guardado tem tamanho n e toda vez que ela é atualizada o antigo MSB é descartado.
 
-## Preditor Híbrido
-
-(etapa 3)
-
 # EXPERIMENTOS
 
-(etapa 3)
