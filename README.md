@@ -1,12 +1,14 @@
+<div style="text-align: justify;">
+
 # BRANCH PREDICTOR SIMULATOR
 
-O Branch Predictor Simulator é uma ferramenta web para simulação dos preditores local (BHT), global (GHT) e híbrido. O intuito da página é auxiliar no aprendizado acadêmico, para que estudantes possam executar e entender o funcionamento de tais tecnologias.
+O Branch Predictor Simulator é uma ferramenta web para simulação dos preditores local (BHT) e global (GHT). O intuito da página é auxiliar no aprendizado acadêmico, para que estudantes possam executar e entender o funcionamento de tais tecnologias.
 
 Este projeto é resultado do trabalho final da disciplina Arquitetura de Computadores II do curso de Ciência da Computação, ministrada pelo Professor Doutor Luiz Henrique Andrade Correia, do Departamento de Ciência da Computação, UFLA.
 
 # TECNOLOGIAS UTILIZADAS
 
-As linguagens utilizadas foram PHP7.3.6, Javascript na biblioteca JQuery 3.4.1.
+As linguagens utilizadas foram PHP7.3.6 e Javascript na biblioteca JQuery 3.4.1.
 
 # INSTALAÇÃO LOCAL
 
@@ -66,11 +68,15 @@ Com o índice calculado, verifica-se a predição determinada pelo valor do cont
 
 ## GHT – Preditor Global de Desvios
 
-O GHT (Global History Table) concatena n e m para criar n + m índices na tabela.
+O GHT (Global History Table) é um preditos(m, n) que concatena n e m para criar n + m índices na tabela.
 
-Para indexação da predição, as operações de remoção dos bits de verificação e cálculo de m são feitos como no BHT. Depois os n bits de comportamento do GHT são concatenados, de forma que os n bits são usados como MSB e os m bits como LSB. O resultado da concatenação é o índice da tabela onde será feita a predição.
+Para indexação da predição, as operações de remoção dos bits de verificação e cálculo de m são feitos como no BHT. Depois disso, os n bits de comportamento do GHT são concatenados, de forma que os n bits são usados como MSB e os m bits como LSB. O resultado da concatenação é o índice da tabela onde será feita a predição.
+
+Por decisões de projeto,...
 
 Depois de calculado o índice, além das operações também feitas no BHT, o GHT deve atualizar o histórico global. Isso é feito "empurrando" o bit menos significativo para a esquerda, sendo adicionado 1 caso o desvio tenha sido tomado e 0 caso contrário. A string onde o histórico é guardado tem tamanho n e toda vez que ela é atualizada o antigo MSB é descartado.
 
 # EXPERIMENTOS
 
+
+</div>
