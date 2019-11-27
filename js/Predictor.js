@@ -138,7 +138,6 @@ class Predictor {
         if (this.iter > 0) {
             --this.iter;
             let line = this.getLine();
-            console.log(line);
 
             let result = "";
             let index = parseInt(line[1]);
