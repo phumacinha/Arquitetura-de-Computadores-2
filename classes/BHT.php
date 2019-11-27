@@ -9,8 +9,6 @@ class BHT extends Predictor {
         $this->file = $file;
     }
 
-   
-
     public function simulator () {
         flush();
         $data = fopen(parent::getFile(), "r");

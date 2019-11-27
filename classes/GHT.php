@@ -77,7 +77,5 @@ class GHT extends Predictor {
 
         return json_encode(parent::getIteractions());
     }
-
-
 }
 ?>

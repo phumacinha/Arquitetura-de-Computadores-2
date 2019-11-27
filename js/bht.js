@@ -203,8 +203,6 @@ class BHT {
         else
         selectorGlobalPrecision.hide();
     }
-
-
 }
 
 var preditor = [];

@@ -198,5 +198,6 @@ abstract class Predictor {
     }
 
     abstract public function simulator();
+    
 }
 ?>
