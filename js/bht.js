@@ -232,8 +232,11 @@ $("#data").submit(function(e){
                 preditor = null;
             }
             $("#response").html("");
-            preditor = new BHT(form_data.get("m"), form_data.get("n"), form_data.get("initialValue"), iter, "#response");
+            preditor = new BHT(form_data.get("m"), form_data.get("historySize"), form_data.get("initialValue"), iter, "#response");
             $("#response").html(preditor.createTable());
+        },
+        error: function (iter) {
+            console.log(iter.responseText);
         }
     });
 
