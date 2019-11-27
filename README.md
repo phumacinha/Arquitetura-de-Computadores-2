@@ -43,8 +43,10 @@ A abordagem desse projeto são preditores de 1 e 2 bits, ou seja, a predição a
 ## Parâmetros de funcionamento
 - m: número de bits do endereço usados para indexação da predição log<sub>2</sub><# of indexes> = m;
 - n: número de bits que guardam o comportamento da predição global;
-- history_size: número de bits que guardam o comportamento da predição no índice (define a márquina de estados - contadores);
-- counter: contadores individuais para cada índice com history_size bits (se history_size==1, então max(counter)==1; se history_size==2, então max(counter)==3), e seu valor determina a predição:
+- globalHistory: conteúdo de n, guarda o histórico dos últimos desvios que acoteceram em qualquer índice. Quando a predição inicial é N, esse parâmetro é inicializado com n 0's, caso contrário, com n 1's;
+- historySize: número de bits que guardam o comportamento da predição no índice (define a márquina de estados - contadores);
+- history: conteúdo de historySize, guarda o histórico dos desvios que aconteceram em um índice específico. Quando a predição inicial é N, esse parâmetro é inicializado com historySize 0's, caso contrário, com historySize 1's;
+- counter: contadores individuais para cada índice com history_size bits (se historySize==1, então max(counter)==1; se historySize==2, então max(counter)==3), e seu valor determina a predição:
   - 1 bit
     - 0 = N (não tomado)
     - 1 = T (tomado)
@@ -54,7 +56,7 @@ A abordagem desse projeto são preditores de 1 e 2 bits, ou seja, a predição a
     - 2 = T
     - 3 = T
 
-O contador do índice da predição é incrementado caso o resultado real do desvio seja T e decrementado caso seja N. Eles, ainda, saturam nos extremos e, caso ocorra uma tentiva de extrapolação, o valor é mantido.
+O contador do índice da predição é incrementado caso o resultado real do desvio seja T e decrementado caso seja N. Eles, ainda, saturam nos extremos e, caso ocorra uma tentiva de extrapolação, o valor é mantido. Quando a predição inicial é setada como N, os contadores começam em 0, independente do tamanho dos contares. Já quando começa como T, são inicializados em 1 ou 3, para contadores de 1 e 2 bits, respectivamente.
 
 ## BHT - Preditor Local de Desvios
 
@@ -69,8 +71,6 @@ Com o índice calculado, verifica-se a predição determinada pelo valor do cont
 O GHT (Global History Table) é um preditos(m, n) que concatena n e m para criar n + m índices na tabela.
 
 Para indexação da predição, as operações de remoção dos bits de verificação e cálculo de m são feitos como no BHT. Depois disso, os n bits de comportamento do GHT são concatenados, de forma que os n bits são usados como MSB e os m bits como LSB. O resultado da concatenação é o índice da tabela onde será feita a predição.
-
-Por decisões de projeto,...
 
 Depois de calculado o índice, além das operações também feitas no BHT, o GHT deve atualizar o histórico global. Isso é feito "empurrando" o bit menos significativo para a esquerda, sendo adicionado 1 caso o desvio tenha sido tomado e 0 caso contrário. A string onde o histórico é guardado tem tamanho n e toda vez que ela é atualizada o antigo MSB é descartado.
 
