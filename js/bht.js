@@ -44,7 +44,7 @@ class BHT {
     }
 
     createStatus () {
-        return '<div id="status"><div id="address"><b>Address:</b> <span>0x</span></div><div id="index"><b>Index:</b> <span></span></div><div id="global-precision"><b>Global precision:</b> <span>'+(this.getGlobalPrecision()*100).toFixed(2) + '%</span></div></div>';
+        return '<div id="status"><div id="iter"><b>Iteration:</b> <span>#</span></div><div id="address"><b>Address:</b> <span>0x</span></div><div id="index"><b>Index:</b> <span></span></div><div id="global-precision"><b>Global precision:</b> <span>'+(this.getGlobalPrecision()*100).toFixed(2) + '%</span></div></div>';
     }
 
     createTable () {
@@ -97,6 +97,7 @@ class BHT {
 
     alterStatus (address, index) {
         let selectorStatus = $(this.selector).find("div#status");
+        selectorStatus.find("div#iter span").text("#" + this.iter);
         selectorStatus.find("div#address span").text("0x" + address.toUpperCase());
         selectorStatus.find("div#index span").text(index);
     }

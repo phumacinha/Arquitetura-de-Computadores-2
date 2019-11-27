@@ -7,22 +7,22 @@ class GHT extends Predictor {
     public function __construct ($m, $n, $historySize, $initialValue, $file) {
         parent::__construct($m, $n, $historySize, $initialValue, $file);
 
-        $this->initializeglobalHistory();
+        $this->initializeGlobalHistory();
     }
 
-    private function initializeglobalHistory () {
+    private function initializeGlobalHistory () {
         $this->globalHistory = [];
         for ($i = 0; $i < parent::getN(); $i++) {
             array_push($this->globalHistory, parent::getInitialValue());
         }
     }
 
-    private function updateglobalHistory ($branch) {
-        array_push($this->globalHistory, $branch);
-        array_shift($this->globalHistory);
+    private function updateGlobalHistory ($branch) {
+        array_unshift($this->globalHistory, $branch);
+        array_pop($this->globalHistory);
     }
 
-    private function convertglobalHistoryToBin () {
+    public function convertGlobalHistoryToBin () {
         $bin = "";
         foreach ($this->globalHistory as $branch) {
             switch ($branch) {
@@ -39,9 +39,12 @@ class GHT extends Predictor {
         return $bin;
     }
 
-    // $historicoGlobal + endereco
-    private function indexCalculator ($address) {
-        $binIndex = parent::baseIndexCalculator($address, 'bin') + $this->convertglobalHistoryToBin();
+    // $historicoGlobal . endereco
+    public function indexCalculator ($address, $base='dec') {
+        $binIndex = parent::baseIndexCalculator($address, 'bin') . $this->convertGlobalHistoryToBin();
+        if ($base == 'bin') {
+            return $binIndex;
+        }
         return base_convert($binIndex, 2, 10);
     }
 
@@ -56,6 +59,7 @@ class GHT extends Predictor {
             $address = trim($trace[0]);
             $branch = trim($trace[1]);
 
+            $this->updateGlobalHistory($branch);
             $decimalIndex = $this->indexCalculator($address);
 
             $historic = [parent::getTableLineByIndex($decimalIndex)];
@@ -65,7 +69,6 @@ class GHT extends Predictor {
             parent::updateCounter($decimalIndex, $branch);
             parent::updatePrediction($decimalIndex);
             parent::updatePrecision($decimalIndex);
-            $this->updateglobalHistory($branch);
 
             array_push($historic, parent::getTableLineByIndex($decimalIndex));
             
