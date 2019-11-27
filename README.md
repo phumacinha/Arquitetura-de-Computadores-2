@@ -68,11 +68,11 @@ Com o índice calculado, verifica-se a predição determinada pelo valor do cont
 
 ## GHT – Preditor Global de Desvios
 
-O GHT (Global History Table) é um preditos(m, n) que concatena n e m para criar n + m índices na tabela.
+O GHT (Global History Table) é um preditos(m, n) que concatena n e m para criar 2<sup>n+m</sup> índices na tabela.
 
 Para indexação da predição, as operações de remoção dos bits de verificação e cálculo de m são feitos como no BHT. Depois disso, os n bits de comportamento do GHT são concatenados, de forma que os n bits são usados como MSB e os m bits como LSB. O resultado da concatenação é o índice da tabela onde será feita a predição.
 
-Depois de calculado o índice, além das operações também feitas no BHT, o GHT deve atualizar o histórico global. Isso é feito "empurrando" o bit menos significativo para a esquerda, sendo adicionado 1 caso o desvio tenha sido tomado e 0 caso contrário. A string onde o histórico é guardado tem tamanho n e toda vez que ela é atualizada o antigo MSB é descartado.
+Depois de calculado o índice, além das operações também feitas no BHT, o GHT deve atualizar o histórico global. Isso é feito adicionando 1 caso o desvio tenha sido tomado e 0 caso contrário como MSB, e o LSB é descartado (shift para direita).
 
 # EXPERIMENTOS
 
