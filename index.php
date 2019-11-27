@@ -45,7 +45,8 @@
         </form>
     </menu>
 
-    <script src="js/bht.js"></script>
+    <script src="js/Predictor.js"></script>
+    <script src="js/form.js"></script>
 
     <div id="response"></div>
 </body>

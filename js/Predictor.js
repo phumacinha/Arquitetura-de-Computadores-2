@@ -1,4 +1,6 @@
-class BHT {
+class Predictor {
+    objeto = null;
+    
     constructor (_m, _historySize, _initialValue, _steps, _selector) {
         this.m = _m;
         this.historySize = _historySize;
@@ -11,8 +13,7 @@ class BHT {
 
         this.running = false;
         this.iter = 0;
-
-    }    
+    }
 
     createOptions () {
         let thisClass = this;
@@ -135,8 +136,9 @@ class BHT {
         this.showGlobalPrecision(false);
 
         if (this.iter > 0) {
-            this.iter--;
+            --this.iter;
             let line = this.getLine();
+            console.log(line);
 
             let result = "";
             let index = parseInt(line[1]);
@@ -205,39 +207,3 @@ class BHT {
         selectorGlobalPrecision.hide();
     }
 }
-
-var preditor = [];
-
-$("#data").submit(function(e){
-    var file_data = $("#file").prop('files')[0];   
-    var form_data = new FormData(this);                  
-    form_data.append('file', file_data);
-
-    $.ajax({
-        url: 'functionsPHP/executeBHT.php',
-        dataType: 'json',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: form_data,                         
-        type: 'post',
-        beforeSend: function () {
-            $("#response").html('<span class="loading">Loading...</span>');
-        },
-        success: function(iter){
-            if (preditor instanceof BHT) {
-                preditor.stop();
-                preditor.steps = [];
-                preditor = null;
-            }
-            $("#response").html("");
-            preditor = new BHT(form_data.get("m"), form_data.get("historySize"), form_data.get("initialValue"), iter, "#response");
-            $("#response").html(preditor.createTable());
-        },
-        error: function (iter) {
-            console.log(iter.responseText);
-        }
-    });
-
-    return false;
-});
