@@ -1,8 +1,7 @@
-class Predictor {
-    objeto = null;
-    
-    constructor (_m, _historySize, _initialValue, _steps, _selector) {
+class Predictor {    
+    constructor (_m, _n, _historySize, _initialValue, _steps, _selector) {
         this.m = _m;
+        this.n = _n;
         this.historySize = _historySize;
         this.initialValue = _initialValue;
         this.steps = _steps;
@@ -13,46 +12,114 @@ class Predictor {
 
         this.running = false;
         this.iter = 0;
+
+        $(this.selector).html(this.createTable());
     }
 
     createOptions () {
-        let thisClass = this;
-        let options = '<div id="options">';
-        options += '<input type="button" id="run" value="Run">'
-        options += '<input type="button" id="stop" value="Stop">'
-        options += '<input type="button" id="prev" value="Previous step">'
-        options += '<input type="button" id="next" value="Next step">'
+        var self = this
+
+        let options = '<div class="col-auto px-0" id="options">'
+        options += '<button id="run-fastly" class="btn">Run fastly</button>'
+        options += '<button id="run-slowly" class="btn">Run slowly</button>'
+        options += '<button id="stop" class="btn">Stop</button>'
+        options += '<button id="prev" class="btn">Previous step</button>'
+        options += '<button id="next" class="btn">Next step</button>'
+        options += '<button id="reset" class="btn">Reset</button>'
         options += '</div>'
 
-        $(this.selector).on("click", "#options #run", function(){
-            thisClass.run();
+
+        $(this.selector).on("click", "#options #run-slowly", function(e) {
+            e.stopImmediatePropagation();
+            self.stop();
+            self.run();
         })
 
-        $(this.selector).on("click", "#options #stop", function(){
-            thisClass.stop();
+        $(this.selector).on("click", "#options #run-fastly", function(e) {
+            e.stopImmediatePropagation();
+            self.stop();
+            self.run(0);
         })
 
-        $(this.selector).on("click", "#options #next", function(){
-            thisClass.stop();
-            thisClass.nextStep();
+        $(this.selector).on("click", "#options #stop", function(e) {
+            e.stopImmediatePropagation();
+            self.stop();
         })
 
-        $(this.selector).on("click", "#options #prev", function(){
-            thisClass.stop();
-            thisClass.prevStep();
+        $(this.selector).on("click", "#options #next", function(e) {
+            e.stopImmediatePropagation();
+             self.stop();
+            self.nextStep();
         })
+
+        $(this.selector).on("click", "#options #prev", function(e) {
+            e.stopImmediatePropagation();
+            self.stop();
+            self.prevStep();
+        })
+
+        $(this.selector).on("click", "#options #reset", function(e) {
+            e.stopImmediatePropagation();
+            self.resetSimulator();
+        })
+
         return options;
     }
 
+    resetSimulator () {
+        this.stop()
+        this.running = false
+        this.iter = 0
+        
+        $(this.selector).html(this.createTable());
+    }
+
     createStatus () {
-        return '<div id="status"><div id="iter"><b>Iteration:</b> <span>#</span></div><div id="address"><b>Address:</b> <span>0x</span></div><div id="index"><b>Index:</b> <span></span></div><div id="global-precision"><b>Global precision:</b> <span>'+(this.getGlobalPrecision()*100).toFixed(2) + '%</span></div></div>';
+        return '<div class="col px-0 d-flex align-items-center justify-content-center" id="local">\
+            <div class="content">\
+                <div id="iter"><b>Iteration:</b> <span>#2</span></div>\
+                <div id="address"><b>Address:</b> <span>0xB77B5D54</span></div>\
+                <div id="index"><b>Index:</b> <span>8</span></div>\
+            </div>\
+        </div>'
+    }
+
+    createPercent () {
+        return '<div class="col px-0 d-flex align-items-center justify-content-center" id="global">\
+            <div class="content">\
+                <div id="percent"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i><span>0.00%<span></div>\
+                Global precision\
+            </div>\
+        </div>';
+    }
+
+    createHeader () {
+        let header = '<div class="content rounded mx-auto d-table">\
+        <div class="row justify-content-center mx-0">'
+        header += this.createOptions()
+        header += '<div class="col-auto" id="details">\
+                <div class="row justify-content-center rounded-top d-flex align-items-center details-title">Details</div>\
+                <div class="row rounded-bottom" id="status">'
+        header += this.createStatus()
+        header += this.createPercent()
+        header += '</div></div></div>'
+
+        return header
     }
 
     createTable () {
         this.stop();
 
-        var table = '<table id="bht">';
-        table += "<tr><th>Index</th><th>History</th><th>Prediction</th><th>Correct</th><th>Incorrect</th><th>Precision</th></tr>"; //header
+        var table = '<div class="row justify-content-center">\
+            <table id="ht" align="center">';
+        table += "<tr>\
+            <th><div>Index</div></th>\
+            <th><div>History</div></th>\
+            <th><div>Prediction</div></th>\
+            <th><div>Correct</div></th>\
+            <th><div>Incorrect</div></th>\
+            <th><div>Precision</div></th>\
+        </tr>"; //header
 
         var history = this.historySize == 2 ? [this.initialValue, this.initialValue] : [this.initialValue];
 
@@ -65,7 +132,7 @@ class Predictor {
 
         table += '</table>';
 
-        return this.createOptions() + this.createStatus() + table;
+        return this.createHeader() + table;
     }
 
     getLine (index=null) {
@@ -80,7 +147,7 @@ class Predictor {
     }
 
     selectTable () {
-        return $(this.selector+ " table#bht");
+        return $(this.selector+ " table#ht");
     }
 
     formatLine (result, index, history, prediction, correct, incorrect, precision) {    
@@ -97,15 +164,29 @@ class Predictor {
     }
 
     alterStatus (address, index) {
-        let selectorStatus = $(this.selector).find("div#status");
+        let selectorStatus = $(this.selector).find("div#local");
         selectorStatus.find("div#iter span").text("#" + this.iter);
         selectorStatus.find("div#address span").text("0x" + address.toUpperCase());
         selectorStatus.find("div#index span").text(index);
     }
 
+    alterPercent (percent, correct=null) {
+        let selectorPercent = $(this.selector).find("div#global");
+        selectorPercent.removeClass('true').removeClass('false')
+        selectorPercent.find(".fa").hide()
+        if (correct === true) { 
+            selectorPercent.addClass('true')
+            selectorPercent.find(".fa-caret-up").show()
+        }
+        else if (correct === false) {
+            selectorPercent.addClass('false')
+            selectorPercent.find(".fa-caret-down").show()
+        }
+        selectorPercent.find("div#percent span").text((percent*100).toFixed(2)+"%");
+    }
+
     nextStep () {
         this.init = false;
-        this.showGlobalPrecision(false);
 
         if (this.iter < this.getStepsLength()) {
             let line = this.getLine();
@@ -117,23 +198,28 @@ class Predictor {
             let correct = line[2][1]["correct"];
             let incorrect = line[2][1]["incorrect"];
             let precision = parseFloat(line[2][1]["precision"])*100;
+            let globalPrecision = parseFloat(line[4]);
 
             this.alterTable(result, index, history, prediction, correct, incorrect, precision);
             
             this.alterStatus(line[3], index);
+            this.alterPercent (globalPrecision, result)
 
-            this.iter++;
+            ++this.iter;
+
+            if (this.iter == this.getStepsLength()) {
+                this.end = true;
+                this.stop();
+            }
         }
         else {
             this.end = true;
             this.stop();
-            this.showGlobalPrecision();
         }
     }
 
     prevStep () {
         this.end = false;
-        this.showGlobalPrecision(false);
 
         if (this.iter > 0) {
             --this.iter;
@@ -146,11 +232,13 @@ class Predictor {
             let correct = line[2][0]["correct"];
             let incorrect = line[2][0]["incorrect"];
             let precision = parseFloat(line[2][0]["precision"])*100;
+            let globalPrecision = parseFloat(line[4]);
+
+            this.init = this.iter == 0 ? true : false;
 
             this.alterTable(result, index, history, prediction, correct, incorrect, precision);
             this.alterStatus(line[3], index);
-
-            this.init = this.iter == 0 ? true : false;
+            this.alterPercent (globalPrecision)
 
             if (!this.init) {
                 line = this.getLine(this.iter-1);
@@ -161,48 +249,32 @@ class Predictor {
                 correct = line[2][1]["correct"];
                 incorrect = line[2][1]["incorrect"];
                 precision = parseFloat(line[2][1]["precision"])*100;
+                let globalPrecision = parseFloat(line[4]);
 
                 this.alterTable(result, index, history, prediction, correct, incorrect, precision);
                 this.alterStatus(line[3], index);
+                this.alterPercent (globalPrecision, result)
             }
-            else
+            else {
                 this.alterStatus("", "");
+                this.alterPercent(0)
+            }
         }
     }
 
-    run () {
-        let thisClass = this;
+    run (speed=100) {
+        var self = this;
 
         if (!this.running) {
             this.interval = setInterval(function(){
-                thisClass.running = true;
-                thisClass.nextStep();
-            }, 100);
+                self.running = true;
+                self.nextStep();
+            }, speed);
         }
     }
 
     stop () {
         clearInterval(this.interval);
         this.running = false;
-    }
-
-    getGlobalPrecision () {
-        let totalCorrect = 0;
-        this.steps.forEach(function(line){
-            if (line[0] === true) {
-                totalCorrect++;
-            }
-        });
-
-        return totalCorrect/this.steps.length;
-    }
-
-    showGlobalPrecision (type=true) {
-        let selectorGlobalPrecision = $(this.selector).find("div#status div#global-precision");
-        
-        if (type)
-            selectorGlobalPrecision.show();
-        else
-        selectorGlobalPrecision.hide();
     }
 }

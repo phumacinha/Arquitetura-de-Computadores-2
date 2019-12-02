@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Branch Predictor Simulator</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="modules/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-expand navbar-dark justify-content-sm-center pt-3 mb-5" id="navbar-top">
+
+      <div class="container">
+
+        <span class="navbar-brand">
+          <img src="styles/img/logo.png" height="80">
+        </span>
+      
+       <div class="collapse navbar-collapse" id="navbarSite">
+          
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a href="#" class="nav-link mx-4" data-toggle="modal" data-target="#modalWorkgroup">Workgroup</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link mx-4" data-toggle="modal" data-target="#modalHelp">Help</a>
+            </li>
+          </ul>
+
+          <a class="btn mx-0" href="https://github.com/phumacinha/Branch-Predictor-Simulator" target="_blank"><span class="mr-1">Documentation</span> <i class="fa fa-github"></i></a>
+
+        </div>
+
+      </div>
+
+    </nav>
+
+
+
+    
+    <!-- Pills -->
+    <div class="container px-0 pt-4" id="container-pills">
+
+      <!-- Pills -->
+      <ul class="nav nav-pills mx-0" id="form-pills" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link px-0 active" id="bht-pill" data-toggle="pill" href="#bht-form">BHT</a> 
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link px-0" id="ght-pill" data-toggle="pill" href="#ght-form">GHT</a> 
+          </li>
+      </ul>
+
+      <!-- Items -->
+      <div class="tab-content rounded-bottom rounded-right text-center" id="forms">
+
+        <!-- bht form -->
+        <div class="tab-pane fade show active" id="bht-form" role="tabpanel">
+          <form id="bht-data" method="post" target="response" action="php/executePredictor.php" enctype="multipart/form-data">
+            <input type="hidden" name="type" value="BHT">
+
+            <div class="form-row">
+              <div class="col pr-0 d-flex">
+
+                <div class="btn-group flex-grow-1 file-group" role="group">
+                  <button type="button" class="btn px-auto py-0">File</button>
+                  <button type="button" class="btn name-of-file px-auto py-0 flex-grow-1">Click here to select a file</button>
+                  <input type="file" name="file" class="d-none input-file">
+
+                </div>
+
+              </div>
+
+
+
+              <div class="col-auto pl-auto">
+
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text px-auto py-0"><span class="mx-auto">Initial value</span></div>
+                  </div>
+                    <select class="custom-select px-auto py-0" name="initialValue">
+                      <option value="T" selected>TAKE</option>
+                      <option value="N">NOT TAKE</option>
+                    </select>
+                </div>
+                
+              </div>
+            </div>
+
+            <div class="form-row justify-content-center">
+                <div class="col-auto pr-0">
+  
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text px-auto py-0"><span class="mx-auto"># of indexes</span></div>
+                    </div>
+                    <select class="custom-select px-auto py-0" name="m">
+                      <option value="2" selected>2</option>
+                      <option value="4">4</option>
+                      <option value="8">8</option>
+                      <option value="16">16</option>
+                      <option value="32">32</option>
+                      <option value="64">64</option>
+                    </select>
+                  </div>
+  
+                </div>
+  
+                <div class="pl-auto">
+  
+                  <div class="col-auto input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text px-auto py-0"><span class="mx-auto">History size</span></div>
+                    </div>
+                    <select class="custom-select px-auto py-0" name="historySize">
+                      <option value="1" selected>1</option>
+                      <option value="2">2</option>
+                    </select>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div class="form-row justify-content-center">
+                <input type="submit" class="btn submit" value="Simulate">
+              </div>
+
+          </form>
+        </div>
+        
+
+        <!-- ght form -->
+        <div class="tab-pane fade " id="ght-form" role="tabpanel">
+          <form id="ght-data" method="post" target="response" action="php/executePredictor.php" enctype="multipart/form-data">
+            <input type="hidden" name="type" value="GHT">
+
+            <div class="form-row">
+              <div class="col pr-0 d-flex">
+
+                <div class="btn-group flex-grow-1 file-group" role="group">
+                  <button type="button" class="btn px-auto py-0">File</button>
+                  <button type="button" class="btn name-of-file px-auto py-0 flex-grow-1">Click here to select a file</button>
+                  <input type="file" name="file" class="d-none input-file">
+
+                </div>
+
+              </div>
+
+              <div class="col-auto pl-auto">
+
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text px-auto py-0"><span class="mx-auto">Initial value</span></div>
+                  </div>
+                    <select class="custom-select px-auto py-0" name="initialValue">
+                      <option value="T" selected>TAKE</option>
+                      <option value="N">NOT TAKE</option>
+                    </select>
+                </div>
+                
+              </div>
+            </div>
+
+            <div class="form-row justify-content-center">
+                <div class="col-auto pr-0">
+  
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text px-auto py-0"><span class="mx-auto"># of indexes</span></div>
+                    </div>
+                    <select class="custom-select px-auto py-0" name="m">
+                      <option value="2" selected>2</option>
+                      <option value="4">4</option>
+                      <option value="8">8</option>
+                      <option value="16">16</option>
+                      <option value="32">32</option>
+                      <option value="64">64</option>
+                    </select>
+                  </div>
+
+                </div>
+
+
+                
+                <div class="col-auto pl-auto">
+  
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text px-auto py-0"><span class="mx-auto">Global history size</span></div>
+                    </div>
+                    <select class="custom-select px-auto py-0" name="n">
+                      <option value="1" selected>1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                  
+                </div>
+
+
+  
+                <div class="col-auto pl-auto">
+  
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text px-auto py-0"><span class="mx-auto">History size</span></div>
+                    </div>
+                    <select class="custom-select px-auto py-0" name="historySize">
+                      <option value="1" selected>1</option>
+                      <option value="2">2</option>
+                    </select>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <div class="form-row justify-content-center">
+                <input type="submit" class="btn submit" value="Simulate">
+              </div>
+
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+    <div class="content" id="response">
+      <iframe name="response" scrolling="no" onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));'></iframe>
+    </div>
+
+
+
+
+
+
+
+
+    
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalWorkgroup" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+  
+            <div class="modal-header">
+              <h5 class="modal-title">Workgroup</h5>
+              <button type="button" class="close text-danger" data-dismiss="modal">
+                <span class="fa fa-times"></span>
+              </button>
+            </div>
+  
+            <div class="modal-body">
+              <p>
+                Bruno
+              </p>
+              <p>
+                Lincoln
+              </p>
+              <p>
+                Mateus Carvalho Gonçalves
+              </p>
+              <p>
+                Pedro Antônio de Souza  
+              </p>
+              <p class="mb-0">
+                Wagner Moretti  
+              </p>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger ml-auto mr-auto" data-dismiss="modal">Close</button>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+    <div class="modal fade" id="modalHelp" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title">How to use simulator</h5>
+            <button type="button" class="close text-danger" data-dismiss="modal">
+              <span class="fa fa-times"></span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <p>
+                Choose the type of predictor you want to simulate. <a href="https://github.com/phumacinha/Branch-Predictor-Simulator" target="_blank">Click here</a> for more information in our documentation.
+            </p>
+            <p>
+                To simulate a branch prediction, first you need a file with a sequence of addresses and branches decisions, for example, “b77a8a3a T”. After that, you need to choose the operating parameters, which in BHT are three: the “# of indexes” determines the number lines of the table; “Local history size” set the number of last local (in the index) decisions that will be saved to make a prediction; and “Inicial value” is the first prediction that will be made. GHT has one last parameter, “Global history size” is the number of global branch decisions (n parameter quoted in the documentation).
+            </p>
+            <p>
+                Now, the “Simulate” button needs to be clicked to appear the table and more four buttons: “Run” initiate the predictions or play after a “Stop”, “Previous step” and “Next step” allow you to navigate between the predictions. 
+              </p>
+              <p class="mb-0">
+                Finally, when the simulation ends, you can see the global precision, which is an arithmetic average of the indexes precisions.
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger ml-auto mr-auto" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="modules/popper.js/popper.min.js"></script>
+    <script src="modules/jquery/jquery-3.4.1.min.js"></script>
+    <script src="modules/bootstrap/bootstrap.min.js"></script>
+    <script src="js/form.js"></script>
+  </body>
+</html>

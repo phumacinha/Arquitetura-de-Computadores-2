@@ -13,6 +13,8 @@ class GeneralPredictor {
     private $counter;
     private $globalHistory;
 
+    private $totalCorrect;
+
     public function __construct ($m, $n, $historySize, $initialValue, $file) {
         $this->m = log($m, 2) - $n;
         $this->n = $n;
@@ -23,39 +25,59 @@ class GeneralPredictor {
         $this->counter = [];
         $this->globalHistory = [];
         $this->file = $file;
+        $this->totalCorrect = 0;
 
         //initialize table
         $this->initializeTable();
 
         //initialize counters
         $this->initializeCounters();
+
+        //initialize global history
+        $this->initializeGlobalHistory();
     }
 
-    protected function getM () {
+    private function getM () {
         return $this->m;
     }
 
-    protected function getN () {
+    private function getN () {
         return $this->n;
     }
 
-    protected function getFile () {
+    private function getFile () {
         return $this->file;
     }
 
-    protected function getInitialValue () {
+    private function getInitialValue () {
         return $this->initialValue;
     }
 
-    protected function getTableLineByIndex ($index) {
+    private function getTableLineByIndex ($index) {
         return $this->table[$index];
     }
 
-    protected function getIteractions () {
+    private function getIterations () {
         return $this->iter;
     }
 
-    protected function insertIter ($line) {
+    private function getTotalIter () {
+        return count($this->iter);
+    }
+
+    private function getTotalCorrect () {
+        return $this->totalCorrect;
+    }
+
+    private function getGlobalPrecision () {
+        return $this->getTotalCorrect()/(count($this->getIterations())+1);
+    }
+
+    private function totalCorrectIncrement () {
+        $this->totalCorrect++;
+    }
+
+    private function insertIter ($line) {
         array_push($this->iter, $line);
     }
 
@@ -110,19 +132,20 @@ class GeneralPredictor {
         }
     }
 
-    protected function baseIndexCalculator ($address, $base=10) {
+    private function baseIndexCalculator ($address, $base=10) {
         $shift = substr(base_convert($address, 16, 2), 0, -2);
         $index = substr($shift, -$this->getM());
-        return base_convert($index, 2, $base);
+        return $this->getM() == 0 ? "" : base_convert($index, 2, $base);
     }
 
-    protected function updateCorrect ($index, $branch) {
+    private function updateCorrect ($index, $branch) {
         $line = &$this->table[$index];
 
         $correct = true;
 
         if ($line["prediction"] == $branch) {
             $line["correct"]++;
+            $this->totalCorrectIncrement();
         }
         else {
             $correct = false;
@@ -132,7 +155,7 @@ class GeneralPredictor {
         return $correct;
     }
 
-    protected function updateHistory ($index, $branch) {
+    private function updateHistory ($index, $branch) {
         $line = &$this->table[$index];
 
         switch ($this->historySize) {
@@ -146,7 +169,7 @@ class GeneralPredictor {
         }
     }
 
-    protected function updateCounter ($index, $branch) {
+    private function updateCounter ($index, $branch) {
         switch ($branch) {
             case self::TAKE:
                 switch ($this->historySize) {
@@ -172,7 +195,7 @@ class GeneralPredictor {
         }
     }
 
-    protected function updatePrediction ($index) {
+    private function updatePrediction ($index) {
         $line = &$this->table[$index];
         $counter = $this->counter[$index];
 
@@ -198,7 +221,7 @@ class GeneralPredictor {
         }
     }
 
-    protected function updatePrecision ($index) {
+    private function updatePrecision ($index) {
         $line = &$this->table[$index];
         $line["precision"] =  $line["correct"]/($line["correct"] + $line["incorrect"]);
     }
@@ -225,7 +248,7 @@ class GeneralPredictor {
         return $bin;
     }
 
-    public function indexCalculator ($address, $base=10) {
+    private function indexCalculator ($address, $base=10) {
         $binIndex = $this->baseIndexCalculator($address, 2) . $this->convertGlobalHistoryToBin();
 
         return base_convert($binIndex, 2, $base);
@@ -234,7 +257,7 @@ class GeneralPredictor {
     public function simulator () {
         flush();
         $data = fopen($this->getFile(), "r");
-        
+
         while (!feof($data)) {
             $trace = fgets($data);
             $trace = explode(" ", $trace);
@@ -255,13 +278,13 @@ class GeneralPredictor {
 
             array_push($historic, $this->getTableLineByIndex($decimalIndex));
             
-            $this->insertIter([$correct, $decimalIndex, $historic, $address]);
+            $this->insertIter([$correct, $decimalIndex, $historic, $address, $this->getGlobalPrecision()]);
 
             flush();
         }
         fclose($data);
 
-        return json_encode($this->getIteractions());
+        return json_encode($this->getIterations());
     }
     
 }

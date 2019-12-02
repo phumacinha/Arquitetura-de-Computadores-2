@@ -1,0 +1,171 @@
+@import url('variables.css');
+
+body, html {
+  background: transparent;
+}
+
+body *:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+body {
+  font-family: 'Raleway';
+  color: var(--dark-gray);
+  margin: 0;
+}
+
+
+
+
+#response > .content {
+  background: white;
+  padding: 15px;
+}
+
+
+
+#options {
+  width: 330px;
+}
+
+#options .btn {
+  font-weight: 600;
+  font-size: 8pt;
+  width: 100px;
+  height: 35px;
+  background: var(--light-gray);
+  color: var(--dark-gray);
+  border: none;
+  margin-right: 6px;
+  margin-bottom: 10px;
+}
+
+#options .btn:focus {
+  box-shadow: none;
+}
+
+#options .btn:hover {
+  background: var(--dark-gray);
+  color: white;
+}
+
+
+
+
+
+#details {
+  width: 320px;
+}
+
+#details .details-title {
+  background: var(--light-gray);
+  font-size: 9pt;
+  font-weight: 700;
+  height: 17px;
+}
+
+#details #status {
+  border: 1px solid var(--light-gray);
+  height: 63px;
+}
+
+#details #status div {
+  text-align: center;
+}
+
+#details #status div#local {
+  font-weight: 600;
+  font-size: 9pt;
+}
+
+#details #status div#local b {
+  font-weight: 800;
+}
+
+#details #status div#local .content div:not(:last-of-type) {
+  margin-bottom: -2px;
+}
+
+
+#details #status #global {
+  font-size: 9pt;
+  font-weight: 600;
+}
+
+#details #status #global #percent {
+  font-weight: 800;
+  font-size: 20pt;
+  margin-bottom: -9px;
+}
+
+#details #status #global.true #percent {
+  color: var(--green-correct);
+}
+
+#details #status #global.false #percent {
+  color: var(--red-incorrect);
+}
+
+#details #status #global #percent .fa {
+  display: none;
+}
+
+
+
+
+
+#ht {
+  text-align: center;
+  font-size: 10pt;
+  border-collapse: collapse;
+}
+
+#ht tr {
+  height: 30px;
+  line-height: 30px;
+}
+
+#ht tr th div {
+  width: 100px;
+  margin: 0;
+  padding: 0;
+}
+
+#ht tr th {
+  background: var(--light-gray);
+  padding: 0 5px;
+}
+
+#ht tr th:first-of-type {
+  padding-left: 0;
+  border-top-left-radius: .25rem!important;
+}
+
+#ht tr th:last-of-type {
+  padding-right: 0;
+  border-top-right-radius: .25rem!important;
+}
+
+#ht tr td {
+  padding: 0;
+}
+
+#ht tr:not(:first-of-type) {
+  box-shadow: inset -1px -1px 0px var(--light-gray), inset 1px 0px 0px var(--light-gray);
+}
+
+#ht tr:last-of-type {
+  border-bottom-left-radius: .25rem!important;
+  border-bottom-right-radius: .25rem!important;
+}
+
+#ht tr.true {
+  background: var(--green-correct);
+  color: white;
+}
+
+#ht tr.false {
+  background: var(--red-incorrect);
+  color: white;
+}
