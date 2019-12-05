@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=0.2">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Branch Predictor Simulator</title>
 
@@ -65,6 +65,7 @@
         <div class="tab-pane fade show active" id="bht-form" role="tabpanel">
           <form id="bht-data" method="post" target="response" action="php/executePredictor.php" enctype="multipart/form-data">
             <input type="hidden" name="type" value="BHT">
+            <input type="hidden" name="n" value="0">
 
             <div class="form-row">
               <div class="col pr-0 d-flex">
@@ -239,8 +240,8 @@
 
 
 
-    <div class="content" id="response">
-      <iframe name="response" scrolling="no" onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));'></iframe>
+    <div class="content mb-0" id="response">
+      <iframe name="response" scrolling="no"></iframe>
     </div>
 
 
@@ -268,10 +269,10 @@
   
             <div class="modal-body">
               <p>
-                Bruno
+                Bruno Noberto Gomes
               </p>
               <p>
-                Lincoln
+                Lincoln Teodoro de Carvalho Xavier da Silva
               </p>
               <p>
                 Mateus Carvalho Gonçalves
@@ -280,7 +281,7 @@
                 Pedro Antônio de Souza  
               </p>
               <p class="mb-0">
-                Wagner Moretti  
+                Wagner Jr. Moretti Tome
               </p>
             </div>
   
@@ -309,18 +310,36 @@
             </button>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body text-justify">
             <p>
-                Choose the type of predictor you want to simulate. <a href="https://github.com/phumacinha/Branch-Predictor-Simulator" target="_blank">Click here</a> for more information in our documentation.
+              Choose the type of predictor you want to simulate. Click here for more information in our documentation.
             </p>
             <p>
-                To simulate a branch prediction, first you need a file with a sequence of addresses and branches decisions, for example, “b77a8a3a T”. After that, you need to choose the operating parameters, which in BHT are three: the “# of indexes” determines the number lines of the table; “Local history size” set the number of last local (in the index) decisions that will be saved to make a prediction; and “Inicial value” is the first prediction that will be made. GHT has one last parameter, “Global history size” is the number of global branch decisions (n parameter quoted in the documentation).
+              To simulate a branch prediction, first you need a file with a sequence of addresses
+              and branches decisions, for example, <code class="text-dark">b77a8a3a T</code>. After that, you need
+              to choose the operating parameters, which in BHT are three: the <b># of indexes</b> determines the number
+              lines of the table; <b>Local history size</b> set the number of last local (in the index) decisions
+              that will be saved to make a prediction; and <b>Inicial value</b> is the first prediction that will
+              be made. GHT has one last parameter, <b>Global history size</b> is the number of global branch decisions
+              (n parameter quoted in the documentation).
             </p>
             <p>
-                Now, the “Simulate” button needs to be clicked to appear the table and more four buttons: “Run” initiate the predictions or play after a “Stop”, “Previous step” and “Next step” allow you to navigate between the predictions. 
-              </p>
-              <p class="mb-0">
-                Finally, when the simulation ends, you can see the global precision, which is an arithmetic average of the indexes precisions.
+              Now, the <b>Simulate</b> button needs to be clicked to appear the table and more six buttons:
+              <ul>	
+                <li>
+                  <b>Run fastly</b>, <b>Run slowly</b> and <b>Next step</b> all initiate the the prediction,
+                  the difference is that the first two of them run the application on and on, while the other
+                  one runs just one step. Moreover they can be used to continue the prediction when it’s stopped;
+                </li>
+                <li><b>Previous step</b> moves backward one step;</li>
+                <li><b>Stop</b> can be used when the application is running for itself and stops on the actual iteration;</li>
+                <li><b>Reset</b> stops the application and goes to initial state of the table.</li>
+              </ul>
+            </p>
+            <p>
+              Finally, the <b>Details</b> field shows informations about the iteration number, address that the
+              prediction was done and his index, and the predictor’s precision – ratio between the total of
+              correct predictions and number of iterations.              
             </p>
           </div>
 

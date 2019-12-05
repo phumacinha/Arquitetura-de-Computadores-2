@@ -31,4 +31,9 @@ $(document).ready(function(){
         let fileName = $(this)[0].files[0].name;
         $(this).parent().find('.name-of-file').text(fileName);
     })
+
+    // RESIZE IFRAME
+    $('div#response iframe').on('load', function(){
+        $(this).height($(this).contents().height()+"px");
+    });
 })

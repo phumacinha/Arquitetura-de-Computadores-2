@@ -68,6 +68,7 @@ body {
 
 #container-pills {
     max-width: 624px;
+    min-width: 624px;
 }
 
 #container-pills .nav-link {
