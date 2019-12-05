@@ -312,34 +312,56 @@
 
           <div class="modal-body text-justify">
             <p>
-              Choose the type of predictor you want to simulate. Click here for more information in our documentation.
+              The first step is choose the type of predictor you want to simulate.
             </p>
+
             <p>
               To simulate a branch prediction, first you need a file with a sequence of addresses
-              and branches decisions, for example, <code class="text-dark">b77a8a3a T</code>. After that, you need
-              to choose the operating parameters, which in BHT are three: the <b># of indexes</b> determines the number
-              lines of the table; <b>Local history size</b> set the number of last local (in the index) decisions
-              that will be saved to make a prediction; and <b>Inicial value</b> is the first prediction that will
-              be made. GHT has one last parameter, <b>Global history size</b> is the number of global branch decisions
-              (n parameter quoted in the documentation).
+              and branches decisions, for example, <code class="text-dark">b77a8a3a T</code>.
+              <a href="examples/traceTP.txt" target="_blank">Click here</a> to download a file example.
             </p>
+
             <p>
-              Now, the <b>Simulate</b> button needs to be clicked to appear the table and more six buttons:
+
+              After that, you need
+              to set operating parameters, which in BHT are three:
+              <ul>
+                <li><b># of indexes</b> determines how many rows the table will have;</li>
+                <li><b>Local history size</b> sets how many of last place (of index) that will be saved to make a prediction;</li>
+                <li><b>Inicial value</b> is the first prediction that will be made.</li>
+              </ul>
+
+              GHT has one last parameter:
+              <ul>
+                <li><b>Global history size</b> sets the number of global branch decisions
+                  (n parameter quoted in the documentation).</li>
+              </ul> 
+
+            </p>
+
+            <p>
+
+              Now, <b>Simulate</b> button should be clicked to appear the table with six controller buttons:
+
               <ul>	
                 <li>
-                  <b>Run fastly</b>, <b>Run slowly</b> and <b>Next step</b> all initiate the the prediction,
-                  the difference is that the first two of them run the application on and on, while the other
-                  one runs just one step. Moreover they can be used to continue the prediction when it’s stopped;
+                  <b>Run fastly</b>, <b>Run slowly</b> and <b>Next step</b> start Branch Predictor Simulator.
+                  However, the first two run the application on and on, while the last
+                  one runs just one step by click. Moreover they can be used to resume simulator when it is stopped;
                 </li>
                 <li><b>Previous step</b> moves backward one step;</li>
-                <li><b>Stop</b> can be used when the application is running for itself and stops on the actual iteration;</li>
-                <li><b>Reset</b> stops the application and goes to initial state of the table.</li>
+                <li><b>Stop</b> can be used when simulator is running and stops on actual iteration;</li>
+                <li><b>Reset</b> stops simulator and goes to initial state of table.</li>
               </ul>
+
             </p>
             <p>
-              Finally, the <b>Details</b> field shows informations about the iteration number, address that the
-              prediction was done and his index, and the predictor’s precision – ratio between the total of
-              correct predictions and number of iterations.              
+              Finally, <b>Details</b> field displays several informations like the iteration number, address that the
+              prediction was done and his associated index, and the predictor’s precision (ratio of total correct
+              predictions to number of iterations).              
+            </p>
+            <p class="mb-0">
+              <small>For more information, <a href="https://github.com/phumacinha/Branch-Predictor-Simulator">go to documentation.</a></small>
             </p>
           </div>
 
@@ -350,18 +372,6 @@
         </div>
       </div>
     </div>
-
-    
-    
-
-
-
-
-
-
-
-
-
 
 
 
