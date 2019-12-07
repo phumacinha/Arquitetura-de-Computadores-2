@@ -32,8 +32,10 @@ $(document).ready(function(){
         $(this).parent().find('.name-of-file').text(fileName);
     })
 
-    // RESIZE IFRAME
-    $('div#response iframe').on('load', function(){
-        $(this).height($(this).contents().height()+"px");
-    });
+    $('form').submit(function(){
+        var data = new FormData(this);
+        var heightIframe = 150 + parseInt(data.get('m'))*30 + 60;
+        // RESIZE IFRAME
+        $('div#response iframe').height(heightIframe+"px");
+    })
 })
