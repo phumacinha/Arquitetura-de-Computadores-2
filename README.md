@@ -13,10 +13,10 @@ As linguagens utilizadas foram PHP7.3.6 e Javascript na biblioteca JQuery 3.4.1.
 Para executar localmente é necessária a instalação do servidor XAMPP, que inclui o Apache 2.4 e o PHP.
 
 Para executar o projeto, além de inicializar o Apache, seguir os passos no diretório onde foi instalado o Xampp:
-- cd xampp
-- cd htdocs
-- git clone https://github.com/phumacinha/Branch-Predictor-Simulator.git
-- No navegador, pesquisar *localhost/Branch-Predictor-Simulator*
+- `cd xampp`
+- `cd htdocs`
+- `git clone https://github.com/phumacinha/Branch-Predictor-Simulator.git`
+- No navegador, pesquisar `localhost/Branch-Predictor-Simulator`
 
 # LINK HOSPEDADO
 
